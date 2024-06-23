@@ -24,7 +24,7 @@ pipeline {
         stage('Deploy') {
             steps {
                  script {
-            def warFilePath = '/var/lib/jenkins/workspace/warProjectPL/target/hello-1.0.war'
+            def warFilePath = '/var/lib/jenkins/workspace/Jenkinsfile/target/hello-1.0.war'
             def tomcatWebappsPath = '/usr/tomcat/tomcat10/webapps'
                      
             sh "sudo -S cp ${warFilePath} ${tomcatWebappsPath}"
