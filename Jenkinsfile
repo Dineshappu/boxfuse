@@ -6,24 +6,32 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout your Git repository
-                git 'https://github.com/Dineshappu/boxfuse.git'
+                script {
+                    try {
+                        // Checkout your Git repository
+                        git(
+                            url: 'https://github.com/Dineshappu/boxfuse.git',
+                            branch: 'main',
+                            credentialsId: 'credID'
+                        )
+                    } catch (Exception e) {
+                        error "Checkout failed: ${e.message}"
+                    }
+                }
             }
         }
-
 
         stage('Build') {
             steps {
-                sh '''
-                    cd /home/ec2-user/boxfuse-sample-java-war-hello
-                '''
-            }
-        }
-        stage('Generate') {
-            steps {
-                sh '''
-                    mvn clean install
-                '''
+                script {
+                    dir('/home/ec2-user/boxfuse-sample-java-war-hello') {
+                        try {
+                            sh 'mvn clean install'
+                        } catch (Exception e) {
+                            error "Build failed: ${e.message}"
+                        }
+                    }
+                }
             }
         }
 }
