@@ -7,7 +7,7 @@ pipeline {
   stages {
     stage('clone code') {
       steps {
-        git credentialsID: 'git_credentials', url: 'https://github.com/Dineshappu/boxfuse.git'
+        git credentialsId: 'git_credentials', url: 'https://github.com/Dineshappu/boxfuse.git'
       }
     }
 
