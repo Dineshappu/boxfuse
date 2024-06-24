@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build code') {
             steps {
-                dir('boxfuse-sample-java-war-hello') {
+                dir('/home/ec2-user/workspace/warProjectPL') {
                     sh 'mvn clean install'
                 }
             }
