@@ -1,32 +1,27 @@
 pipeline {
-  agent any 
-  environment {
-    PATH = "/usr/tomcat/tomcat10/webapps"
-
-  }
-  stages {
-    stage('clone code') {
-      steps {
-        git credentialsId: 'git_credentials', url: 'https://github.com/Dineshappu/boxfuse.git'
-      }
+    agent any
+    environment {
+        PATH = "/usr/tomcat/tomcat10/webapps:$PATH"
     }
-
-
-    stage('build code') {
-      steps {
-        sh "mvn clean install"
-      }
+    stages {
+        stage('Clone code') {
+            steps {
+                git credentialsId: 'git_credentials', url: 'https://github.com/Dineshappu/boxfuse.git'
+            }
+        }
+        stage('Build code') {
+            steps {
+                dir('boxfuse-sample-java-war-hello') {
+                    sh 'mvn clean install'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                sshagent(['deploy_user']) {
+                    sh 'scp -o StrictHostKeyChecking=no target/hello-1.0.war ec2-user@172.31.81.156:/usr/tomcat/tomcat10/webapps'
+                }
+            }
+        }
     }
-
- stage('deploy') {
-      steps {
-        sshagent(['deploy_user']){
-          sh "scp -o StrictHostKeyChecking=no/home/ec2-user/workspace/warProjectPL/target/hello-1.0.war ec2-user@:172.31.81.156:/usr/tomcat/tomcat10/webapps"
-      }
-    }
-    }
-  }
-  }
-    
-    
-    
+}
