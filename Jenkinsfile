@@ -1,6 +1,8 @@
 pipeline {
-    agent any
-
+    agent {
+        label 'slavenode'
+    }
+    
     stages {
         stage('Checkout') {
             steps {
@@ -9,30 +11,20 @@ pipeline {
             }
         }
 
+
         stage('Build') {
             steps {
-                // Set up Maven environment (if needed)
-                script {
-                    env.MAVEN_HOME = tool 'Maven' // Make sure 'Maven' is configured in Jenkins Global Tool Configuration
-
-                    // Clean and package the Maven project
-                    sh 'mvn clean package'
-                }
+                sh '''
+                    cd /home/ec2-user/boxfuse-sample-java-war-hello
+                '''
             }
         }
-
-        stage('Deploy') {
+        stage('Generate') {
             steps {
-                 script {
-            def warFilePath = '/var/lib/jenkins/workspace/Jenkinsfile/target/hello-1.0.war'
-            def tomcatWebappsPath = '/usr/tomcat/tomcat10/webapps'
-                     
-            sh "sudo -S cp ${warFilePath} ${tomcatWebappsPath}"
-                        // Restart Tomcat to deploy the application (if necessary)
-                        sh 'sudo systemctl restart tomcat'
-                    
-                }
+                sh '''
+                    mvn clean install
+                '''
             }
         }
-    }
 }
+    }
