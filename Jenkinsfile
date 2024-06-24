@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Clone code') {
             steps {
-                git credentialsId: 'git_credentials', url: 'https://github.com/Dineshappu/boxfuse.git'
+                git credentialsId: 'credID', url: 'https://github.com/Dineshappu/boxfuse.git'
             }
         }
         stage('Build code') {
