@@ -7,16 +7,13 @@ pipeline {
         stage('Build code') {
             steps {
                 dir('boxfuse-sample-java-war-hello') {
-                    sh 'cd /home/ec2-user/workspace/warProjectPL'
                     sh 'mvn clean install'
                 }
             }
         }
         stage('Deploy') {
             steps {
-                
-                    sh 'cp /home/ec2-user/workspace/warProjectPL/target/hello-1.0.war /usr/tomcat/tomcat10/webapps'
-            
+                sh 'cp boxfuse-sample-java-war-hello/target/hello-1.0.war /usr/tomcat/tomcat10/webapps'
             }
         }
     }
