@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh 'cp boxfuse-sample-java-war-hello/target/hello-1.0.war /usr/tomcat/tomcat10/webapps'
+                sh 'cp /home/ec2-user/workspace/warProjectPL/target/hello-1.0.war /usr/tomcat/tomcat10/webapps'
             }
         }
     }
