@@ -4,23 +4,19 @@ pipeline {
         PATH = "/usr/tomcat/tomcat10/webapps:$PATH"
     }
     stages {
-        stage('Clone code') {
-            steps {
-                git credentialsId: 'credID', url: 'https://github.com/Dineshappu/boxfuse.git'
-            }
-        }
         stage('Build code') {
             steps {
                 dir('boxfuse-sample-java-war-hello') {
+                    sh 'cd /home/ec2-user/workspace/warProjectPL'
                     sh 'mvn clean install'
                 }
             }
         }
         stage('Deploy') {
             steps {
-                sshagent(['deploy_user']) {
-                    sh 'scp -o StrictHostKeyChecking=no /home/ec2-user/workspace/warProjectPL/target/hello-1.0.war ec2-user@172.31.81.156:/usr/tomcat/tomcat10/webapps'
-                }
+                
+                    sh 'cp /home/ec2-user/workspace/warProjectPL/target/hello-1.0.war /usr/tomcat/tomcat10/webapps'
+            
             }
         }
     }
