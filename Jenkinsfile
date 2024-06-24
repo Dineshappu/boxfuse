@@ -5,7 +5,7 @@ pipeline {
   }    
   environment {
     TOMCAT_CREDS=credentials('credID')
-    TOMCAT_SERVER="192.168.1.48"
+    TOMCAT_SERVER="3.89.23.110"
     ROOT_WAR_LOCATION="/usr/tomcat/tomcat10/webapps"
     LOCAL_WAR_DIR="build/dist"
     WAR_FILE="hello-1.0.war"
